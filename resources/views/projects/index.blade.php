@@ -7,8 +7,8 @@
 
     <div class="py-m-6">
         <div class="w-full m-2">
-                @can('create client')
-                <a href="{{ route('clients.create')}}" class="m-2 p-2 bg-green-400 rounded">
+                @can('create project')
+                <a href="{{ route('projects.create')}}" class="m-2 p-2 bg-green-400 rounded">
                     Create Project
                 </a>
                 @endcan
@@ -28,7 +28,7 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Assigned to</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Client</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Deadline</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Status</th>
+                    <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Status</th> -->
                     <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Client</th> -->
                    
                 </tr>
@@ -48,10 +48,10 @@
                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200" />
                     </td> -->
                     <td class="px-6 py-4 text-right text-sm">
-                        @can('edit client')
+                        @can('edit project')    
                         <a href="" class="m-2 p-2 bg-green-400 rounded">Edit</a>
                         @endcan
-                        @can('delete client')
+                        @can('delete project')
                         <a href="#" class="m-2 p-2 bg-green-400 rounded">Delete</a>
                         @endcan
                     </td>

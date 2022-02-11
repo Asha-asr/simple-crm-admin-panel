@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,9 @@ require __DIR__.'/auth.php';
 Route::get('/projects', function () {
     return view('projects.index');
 })->middleware(['auth'])->name('projects.index');
+
+Route::get('projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware('role:admin');
+
 
 Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create')->middleware('role:admin');
 Route::get('/clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit')->middleware('role:admin|user1|user2|user3');
