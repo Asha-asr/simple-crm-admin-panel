@@ -31,7 +31,7 @@ class TaskFactory extends Factory
             'client_id' => $clients->random(),
             'project_id' => $projects->random(),
             'deadline' => $this->faker->dateTimeBetween('+1 month', '+6 month'),
-            // 'status' => Arr::random(Task::STATUS),
+            'status' => Arr::random(Task::STATUS),
         ];
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Notifications\ProjectAssigned;
 use App\Http\Requests\CreateProjectRequest;
+use App\Http\Requests\EditProjectRequest;
+
 
 class ProjectController extends Controller
 {
@@ -72,9 +74,12 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Project $project)
     {
-        //
+        $users = User::all()->pluck('name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+
+        return view('projects.edit', compact('project', 'users', 'clients'));
     }
 
     /**
@@ -84,9 +89,17 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditProjectRequest $request, Project $project)
     {
-        //
+        if ($project->user_id !== $request->user_id) {
+            $user = User::find($request->user_id);
+
+            
+        }
+        $data = $request->validated();
+        $project->update($data);
+
+        return redirect()->route('projects.index')->with('message', 'Project updated successfully');;
     }
 
     /**
@@ -95,8 +108,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect('projects/index')->with('message', 'Project deleted successfully');
     }
 }

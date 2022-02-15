@@ -43,8 +43,8 @@
 
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $project->title }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $project->user_id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $project->client_id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $project->user->name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ $project->client->company_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ $project->deadline }}</td>
                     <!-- <td class="px-6 py-4 whitespace-nowrap">{{ $project->status }}</td> -->
                     <!-- <td class="px-6 py-4 whitespace-nowrap">
@@ -52,10 +52,15 @@
                     </td> -->
                     <td class="px-6 py-4 text-right text-sm">
                         @can('edit project')    
-                        <a href="" class="m-2 p-2 bg-green-400 rounded">Edit</a>
+                        <a href="{{ route('projects.edit', $project) }}" class="m-2 p-2 bg-green-400 rounded">Edit</a>
                         @endcan
                         @can('delete project')
-                        <a href="#" class="m-2 p-2 bg-green-400 rounded">Delete</a>
+                        <form action="{{ route('projects.destroy', $project) }}" method="POST"
+                                      onsubmit="return confirm('Are your sure?');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                </form>
                         @endcan
                     </td>
                 </tr>
@@ -74,7 +79,9 @@
                 <!-- More items... -->
                 </tbody>
             </table>
-            <div class="m-2 p-2">Pagination</div>
+            <div class="m-2 p-2">Pagination
+            {{ $projects->withQueryString()->links() }}
+            </div>
             </div>
         </div>
         </div>

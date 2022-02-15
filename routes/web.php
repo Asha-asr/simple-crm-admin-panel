@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,11 @@ Route::post('projects/createnew', [ProjectController::class, 'store'])->name('pr
 Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update')->middleware('role:admin|user1|user2|user3');
 Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('role:admin');
 
-
+Route::get('tasks/index', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('tasks/create', [TaskController::class, 'create'])->name('tasks.create')->middleware('role:admin');
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit')->middleware('role:admin|user1|user2|user3');
+Route::post('tasks/createnew', [TaskController::class, 'store'])->name('tasks.store')->middleware('role:admin');
+Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update')->middleware('role:admin|user1|user2|user3');
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy')->middleware('role:admin');
 // Route::resource('projects', \App\Http\Controllers\ProjectController::class);
 // Route::resource('tasks', \App\Http\Controllers\TaskController::class);

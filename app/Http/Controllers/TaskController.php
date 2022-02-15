@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Task;
+use App\Models\Client;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
+
 
 class TaskController extends Controller
 {
@@ -13,7 +20,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::with(['user', 'client', 'project'])->paginate(20);
+
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -23,7 +32,11 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all()->pluck('name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+        $projects = Project::all()->pluck('title', 'id');
+
+        return view('tasks.create', compact('users', 'clients', 'projects'));
     }
 
     /**
@@ -32,9 +45,13 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTaskRequest $request)
     {
-        //
+        $task = Task::create($request->validated());
+
+        $user = User::find($request->user_id);
+
+        return redirect()->route('tasks.index')->with('message', 'Task added successfully');
     }
 
     /**
@@ -54,9 +71,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Task $task)
     {
-        //
+        $users = User::all()->pluck('name', 'id');
+        $clients = Client::all()->pluck('company_name', 'id');
+        $projects = Project::all()->pluck('title', 'id');
+
+        return view('tasks.edit', compact('task', 'users', 'clients', 'projects'));
     }
 
     /**
@@ -66,9 +87,15 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditTaskRequest $request, Task $task)
     {
-        //
+        if ($task->user_id !== $request->user_id) {
+            $user = User::find($request->user_id);
+        }
+
+        $task->update($request->validated());
+
+        return redirect()->route('tasks.index')->with('message', 'Task updated successfully');
     }
 
     /**
@@ -77,8 +104,9 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return redirect()->route('tasks.index')->with('message', 'Task deleted successfully');
     }
 }
