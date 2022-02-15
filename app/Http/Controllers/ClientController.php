@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Http\Requests\ClientRequest;
+use App\Http\Requests\EditClientRequest;
+use Illuminate\Http\Response;
 
 class ClientController extends Controller
 {
@@ -14,6 +18,8 @@ class ClientController extends Controller
     public function index()
     {
         //
+        $clients = Client::paginate(20);
+        return view('clients/index', compact('clients'));
     }
 
     /**
@@ -25,6 +31,7 @@ class ClientController extends Controller
     {
         //
         // return "Create page is here";
+        
         return view('clients.create');
     }
 
@@ -34,9 +41,23 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        //
+            
+        try{
+
+            $data = $request->validated();
+        // return $data;
+        Client::create($data);
+        
+        return redirect('clients/index')->with('message', 'Client added successfully');
+            
+        }
+        catch(\Exception $ex){
+            return redirect('clients/index')->with('message', '$ex');
+
+        }
+        
     }
 
     /**
@@ -56,11 +77,11 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Client $client)
     {
         //
         // return "edit the post with id:".$id;
-        return view('clients.edit');
+        return view('clients.edit', compact('client'));
     }
 
     /**
@@ -70,9 +91,13 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditClientRequest $request, Client $client)
     {
-        //
+        $data = $request->validated();
+        // $client->fill($client);
+        $client->update($data);
+
+        return redirect('clients/index')->with('message', 'Client updated successfully');
     }
 
     /**
@@ -81,8 +106,10 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        //
+        // return $client;
+        $client->delete();
+        return redirect('clients/index')->with('message', 'Client deleted successfully');
     }
 }

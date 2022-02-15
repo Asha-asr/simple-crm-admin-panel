@@ -4,10 +4,11 @@
             Create Client
         </h2>
     </x-slot>
-<form action="" method="POST">
+<form action="{{ route('clients.store') }}" method="POST">
         @csrf
 
         <div class="card">
+       
             <div class="card-header">Contact information</div>
 
             <div class="card-body">

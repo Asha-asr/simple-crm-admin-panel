@@ -6,6 +6,9 @@
     </x-slot>
 
     <div class="py-m-6">
+    @if (session('message'))
+            <h5>{{ session('message') }}</h5>
+            @endif 
         <div class="w-full m-2">
                 @can('create project')
                 <a href="{{ route('projects.create')}}" class="m-2 p-2 bg-green-400 rounded">

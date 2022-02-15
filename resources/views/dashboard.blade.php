@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-m-6">
-        <div class="w-full m-2">
+            <div class="w-full m-2">
                 @can('create client')
                 <a href="{{ route('clients.create')}}" class="m-2 p-2 bg-green-400 rounded">
                     Create Client
@@ -43,14 +43,14 @@
                     <!-- <td class="px-6 py-4 whitespace-nowrap">
                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200" />
                     </td> -->
-                    <td class="px-6 py-4 text-right text-sm">
+                    <!-- <td class="px-6 py-4 text-right text-sm">
                         @can('edit client')
                         <a href="{{ route('clients.edit', $client->id)}}" class="m-2 p-2 bg-green-400 rounded">Edit</a>
                         @endcan
                         @can('delete client')
                         <a href="#" class="m-2 p-2 bg-green-400 rounded">Delete</a>
                         @endcan
-                    </td>
+                    </td> -->
                 </tr>
 
                 @endforeach
@@ -67,7 +67,9 @@
                 <!-- More items... -->
                 </tbody>
             </table>
-            <div class="m-2 p-2">Pagination</div>
+            <div class="m-2 p-2">Pagination
+            
+            </div>
             </div>
         </div>
         </div>

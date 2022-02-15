@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Client;
-use App\Models\Project;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Notifications\ProjectAssigned;
-use App\Http\Requests\CreateProjectRequest;
 
-class ProjectController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::with(['user', 'client'])->paginate(10);
-
-        return view('projects.index', compact('projects'));
+        // $users = User::all();
+        return "Hi";
+        return view('users/index', compact('users'));
     }
 
     /**
@@ -31,9 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $users = User::all()->pluck('name', 'id');
-        $clients = Client::all()->pluck('company_name', 'id');
-        return view('projects.create', compact('users', 'clients'));
+        //
     }
 
     /**
@@ -42,17 +35,9 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateProjectRequest $request)
+    public function store(Request $request)
     {
-        $project = Project::create($request->validated());
-
-        $user = User::find($request->user_id);
-
-        // $user->notify(new ProjectAssigned($project));
-        
-
-        return redirect()->route('projects.index')->with('message', 'Project added successfully');
-       
+        //
     }
 
     /**
